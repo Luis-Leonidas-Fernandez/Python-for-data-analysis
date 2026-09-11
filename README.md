@@ -115,20 +115,41 @@ Each project should include:
 
 ## Setup
 
-### Option 1: uv
+Use the friendly development command:
 
 ```bash
-uv run jupyter notebook
+make dev
 ```
 
-### Option 2: pip
+You can also call the startup script directly:
 
 ```bash
-pip install -r requirements.txt
-jupyter notebook
+./scripts/start.sh
 ```
+
+The script will:
+
+1. Create `.venv` if it does not exist.
+2. Activate the virtual environment.
+3. Install dependencies only when `.venv` is new or `requirements.txt` changed.
+4. Start Jupyter Notebook.
 
 The environment keeps `pandas==2.0.3` for compatibility with the book examples.
+
+If you need to force a specific Python executable, use:
+
+```bash
+make dev PYTHON_BIN=python3.11
+```
+
+Useful commands:
+
+```bash
+make help      # Show available commands
+make install   # Prepare the environment without starting Jupyter
+make dev       # Start the study environment
+make clean     # Remove local generated environment/cache files
+```
 
 ## Git workflow
 
