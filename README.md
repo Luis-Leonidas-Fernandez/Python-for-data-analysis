@@ -12,6 +12,7 @@ This repository is organized around my own notebooks, practice exercises, and sm
 | --- | --- |
 | `book/notebooks/` | Chapter-by-chapter practice notebooks |
 | `book/projects/` | Integrative projects for portfolio-style practice |
+| `book/outputs/` | Generated files from practice notebooks |
 | `datasets/` | Data files used for analysis exercises |
 | `examples/` | Supporting files used by the book examples |
 | `requirements.txt` | Dependency list for notebook execution |
@@ -47,6 +48,8 @@ For each topic:
 
 ```text
 .
+├── .vscode/
+│   └── settings.json
 ├── asset/
 │   └── image.png
 ├── book/
@@ -63,12 +66,17 @@ For each topic:
 │   │   ├── chapter_11.ipynb
 │   │   ├── chapter_12.ipynb
 │   │   └── chapter_13.ipynb
-│   └── projects/
-│       ├── babynames-analysis.ipynb
-│       ├── movielens-analysis.ipynb
-│       └── titanic-analysis.ipynb
+│   ├── projects/
+│   │   ├── babynames-analysis.ipynb
+│   │   ├── movielens-analysis.ipynb
+│   │   └── titanic-analysis.ipynb
+│   └── outputs/
+│       └── .gitkeep
 ├── datasets/
 ├── examples/
+├── scripts/
+│   └── start.sh
+├── Makefile
 ├── requirements.txt
 ├── pyproject.toml
 └── README.md
@@ -76,7 +84,7 @@ For each topic:
 
 ## Chapter notebooks
 
-The notebooks inside `book/notebooks/` are my organized chapter workspace.
+The notebooks inside `book/notebooks/` are my organized chapter workspace. They are guided practice notebooks: each original code block is shown as reference, followed by a `My version` cell and a `What I learned` section.
 
 | Notebook | Topic |
 | --- | --- |
@@ -112,6 +120,34 @@ Each project should include:
 5. Visual analysis
 6. Conclusions
 7. Next possible improvements
+
+## Generated outputs
+
+Generated practice files should go into:
+
+```text
+book/outputs/
+```
+
+The guided notebooks define this path as:
+
+```python
+OUTPUTS_DIR = PROJECT_ROOT / "book" / "outputs"
+```
+
+Use it for files created while practicing:
+
+```python
+df.to_csv(OUTPUTS_DIR / "my-analysis.csv")
+```
+
+This keeps source material clean:
+
+- `examples/` stays reserved for original example inputs.
+- `datasets/` stays reserved for original datasets.
+- `book/outputs/` receives generated practice files.
+
+Only `book/outputs/.gitkeep` is tracked; generated output files are ignored by Git.
 
 ## Setup
 
@@ -191,7 +227,7 @@ git status
 After creating or updating notebooks:
 
 ```bash
-git add book README.md .gitignore pyproject.toml requirements.txt
+git add book README.md .gitignore pyproject.toml requirements.txt Makefile scripts .vscode
 git commit -m "study: update notebook practice"
 ```
 
@@ -203,15 +239,22 @@ git push
 
 ## Original source notebooks
 
-The original root notebooks from the source repository are kept locally only as reference material:
+The original notebooks are kept locally only as reference material in:
 
 ```text
-/ch02.ipynb ... /ch13.ipynb
-/appa.ipynb
-/appb.ipynb
+_original/
+├── ch02.ipynb ... ch13.ipynb
+├── appa.ipynb
+└── appb.ipynb
 ```
 
-They are intentionally ignored by Git in this personal repository. This keeps the remote repository focused on my own study work instead of tracking unchanged source material.
+They are intentionally ignored by Git in this personal repository. This keeps the remote repository focused on my own guided notebooks, study notes, and project work.
+
+The guided notebooks reference these files with paths like:
+
+```text
+../../_original/ch02.ipynb
+```
 
 ## Attribution
 
