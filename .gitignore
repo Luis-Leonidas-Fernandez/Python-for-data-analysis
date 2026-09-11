@@ -1,0 +1,20 @@
+# Jupyter
+.ipynb_checkpoints/
+
+# Original book notebooks kept locally as reference only.
+# They are intentionally not versioned in this personal study repository.
+/ch*.ipynb
+/app*.ipynb
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+
+# OS/editor
+.DS_Store
+.vscode/
+.idea/
+datasets/fec/P00000001-ALL.csv
