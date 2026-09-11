@@ -3,6 +3,7 @@ set -euo pipefail
 
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 VENV_DIR="$PROJECT_ROOT/.venv"
+VENV_PYTHON="$VENV_DIR/bin/python"
 PYTHON_BIN="${PYTHON_BIN:-python3}"
 START_JUPYTER="${START_JUPYTER:-1}"
 INSTALL_STAMP="$VENV_DIR/.requirements-installed"
@@ -14,15 +15,12 @@ mkdir -p "$MPLCONFIGDIR"
 echo "▶ Python for Data Analysis — Study Environment"
 echo "Project: $PROJECT_ROOT"
 
-if [ ! -d "$VENV_DIR" ]; then
+if [ ! -x "$VENV_PYTHON" ]; then
   echo "▶ Creating virtual environment in .venv"
   "$PYTHON_BIN" -m venv "$VENV_DIR"
 fi
 
-# shellcheck disable=SC1091
-source "$VENV_DIR/bin/activate"
-
-echo "▶ Using Python: $(python --version)"
+echo "▶ Using Python: $("$VENV_PYTHON" --version)"
 
 if [ ! -f requirements.txt ]; then
   echo "✖ requirements.txt not found"
@@ -31,8 +29,8 @@ fi
 
 if [ ! -f "$INSTALL_STAMP" ] || [ requirements.txt -nt "$INSTALL_STAMP" ]; then
   echo "▶ Installing dependencies from requirements.txt"
-  python -m pip install --upgrade pip
-  python -m pip install -r requirements.txt
+  "$VENV_PYTHON" -m pip install --upgrade pip
+  "$VENV_PYTHON" -m pip install -r requirements.txt
   touch "$INSTALL_STAMP"
 else
   echo "▶ Dependencies already installed"
@@ -41,7 +39,7 @@ fi
 if [ "$START_JUPYTER" = "1" ]; then
   echo "▶ Starting Jupyter Notebook"
   echo "Press Ctrl+C to stop the server."
-  jupyter notebook
+  "$VENV_PYTHON" -m notebook
 else
   echo "▶ Environment ready. Run `make dev` to start Jupyter."
 fi
