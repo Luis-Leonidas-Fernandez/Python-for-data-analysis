@@ -134,7 +134,7 @@ The script will:
 3. Install dependencies only when `.venv` is new or `requirements.txt` changed.
 4. Start Jupyter Notebook.
 
-The environment keeps `pandas==2.0.3` for compatibility with the book examples.
+The environment uses current pinned dependencies from `requirements.txt` for a reproducible modern data science setup.
 
 If you need to force a specific Python executable, use:
 
@@ -149,6 +149,35 @@ make help      # Show available commands
 make install   # Prepare the environment without starting Jupyter
 make dev       # Start the study environment
 make clean     # Remove local generated environment/cache files
+```
+
+## VS Code setup
+
+This repository includes workspace settings in `.vscode/settings.json` so VS Code points to the local virtual environment:
+
+```text
+.venv/bin/python
+```
+
+If imports appear as unresolved in VS Code, select the project interpreter manually:
+
+```text
+Cmd + Shift + P
+Python: Select Interpreter
+.venv/bin/python
+```
+
+For notebooks opened inside VS Code, also select the matching kernel:
+
+```text
+Select Kernel → Python Environments → .venv
+```
+
+If the warning remains after selecting the interpreter, reload the editor window:
+
+```text
+Cmd + Shift + P
+Developer: Reload Window
 ```
 
 ## Git workflow
